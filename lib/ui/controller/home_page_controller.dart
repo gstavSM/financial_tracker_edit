@@ -22,6 +22,8 @@ class HomePageController {
     saveTransaction = Command1(_saveTransaction);
     undoDelectedTransaction = Command1(_undoDelectedTransaction);
     deleteTransaction = Command1(_deleteTransaction);
+    editTransaction = Command1(_editTransaction);
+
     //loadSample = Command0<void, void>(_resetToSample);
     incomes = Computed(
       () =>
@@ -62,6 +64,7 @@ class HomePageController {
   late final Command1<void, Failure, TransactionEntity> saveTransaction;
   late final Command1<void, Failure, TransactionEntity> undoDelectedTransaction;
   late final Command1<void, Failure, String> deleteTransaction;
+  late final Command1<void, Failure, TransactionEntity> editTransaction;
   late final Command2<List<TransactionEntity>, Failure, DateTime, DateTime>
   searchTransactionsByDate;
   //late final Command0<void, void> loadSample;
@@ -200,6 +203,24 @@ class HomePageController {
 
     return result;
   }
+
+Future<Result<void, Failure>> _editTransaction(TransactionEntity transaction) async {
+  final result = await _transactionsUseCases.editTransaction.call((
+    transaction: transaction,
+  ));
+
+  result.fold(
+    onSuccess: (_) {
+      _transactions.value = [
+        for (var t in _transactions.value)
+        t.id == transaction.id ? transaction : t
+        ];
+    },
+    onFailure: (failure) => print('Erro ao editar a transação: $failure'),
+  );
+
+  return result;
+}
 
   /// Alterna a visibilidade do filtro de transações.
   void toggleFilterVisibility() {

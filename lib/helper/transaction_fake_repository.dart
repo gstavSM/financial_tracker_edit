@@ -81,6 +81,31 @@ class TransactionFakeRepository {
     return jsonEncode(filteredTransactions.map((e) => e.toMap()).toList());
   }
 
+ Future<void> updateData(String transactionJson) async {
+  await Future.delayed(const Duration(seconds: 1));
+  
+  if (Random().nextBool()) {
+    throw Random().nextBool() 
+        ? APIFailure(MessagesError.apiError)
+        : InvalidData(MessagesError.recordInvalidFormat);
+  }
+
+  if (transactionJson.isEmpty) {
+    throw InvalidData(MessagesError.recordInvalidFormat);
+  }
+
+  final transactionMap = jsonDecode(transactionJson);
+  final transactionId = transactionMap['id'];
+  
+  final index = transactions.indexWhere((t) => t.id == transactionId);
+  if (index == -1) {
+    throw RecordNotFound(MessagesError.recordNotFound);
+  }
+
+  transactions[index] = TransactionEntity.fromMap(transactionMap);
+}
+  
+
   // Future<bool> updateData(String studentJson) async {
   //   try {
   //     student = StudentInfoEntity.fromJson(studentJson);

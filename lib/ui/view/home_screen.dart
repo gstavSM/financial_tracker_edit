@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   viewModelController.deleteTransaction.execute(id);
                 },
                 undoDelete: viewModelController.undoDelectedTransaction,
-                scaffoldContext: context,
+                scaffoldContext: context, onEdit: viewModelController.editTransaction,
               );
             }),
 

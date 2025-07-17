@@ -1,5 +1,6 @@
 import 'package:financial_tracker/domain/usecase/add_transaction_use_case_impl.dart';
 import 'package:financial_tracker/domain/usecase/delete_transaction_use_case_impl.dart';
+import 'package:financial_tracker/domain/usecase/edit_transaction_use_case_impl.dart';
 import 'package:financial_tracker/domain/usecase/get_all_%20transactions_use_case_impl.dart';
 import 'package:financial_tracker/domain/usecase/get_transaction_by_date_use_case_impl.dart';
 import 'package:financial_tracker/domain/usecase/get_transaction_use_case_impl.dart';
@@ -10,6 +11,7 @@ class TransactionFacadeUseCases {
   final GetTransactionBayDateUseCaseImpl getByDate;
   final DeleteTransactionUseCaseImpl deleteById;
   final AddTransactionUseCaseImpl addTransaction;
+  final EditTransactionUseCaseImpl editTransaction;
 
   TransactionFacadeUseCases({
     required this.getAll,
@@ -17,5 +19,6 @@ class TransactionFacadeUseCases {
     required this.getByDate,
     required this.deleteById,
     required this.addTransaction,
+    required this.editTransaction,
   });
 }
