@@ -1,9 +1,13 @@
 import 'package:financial_tracker/common/errors/errors_classes.dart';
 import 'package:financial_tracker/common/patterns/command.dart';
+import 'package:financial_tracker/ui/widget/transaction_form.dart';
+import 'package:flutter/services.dart';
 
 import '../../common/utils/formatter.dart';
 import '../../domain/entity/transaction_entity.dart';
 import 'package:flutter/material.dart';
+
+import 'edit_transaction.sheet.dart';
 
 /// widget que exibe uma lista de transações de receitas e despesas
 class TransactionCardSheets extends StatefulWidget {
@@ -13,9 +17,10 @@ class TransactionCardSheets extends StatefulWidget {
   expenseTransactions; // Lista de transações de despesas
   final Function(String id)
   onDelete; // Callback para deletar uma transação pelo ID
-
   final Command1<void, Failure, TransactionEntity>
   undoDelete; // Callback para desfazer exclusão
+   final Command1<void, Failure, TransactionEntity>
+  onEdit; // Parametro onEdit*** 
   final BuildContext
   scaffoldContext; // Contexto do Scaffold para exibir SnackBars
 
@@ -25,6 +30,7 @@ class TransactionCardSheets extends StatefulWidget {
     required this.expenseTransactions,
     required this.onDelete,
     required this.undoDelete,
+    required this.onEdit, //***
     required this.scaffoldContext,
   });
 
@@ -293,6 +299,8 @@ class _TransactionCardSheetsState extends State<TransactionCardSheets>
                 ),
               );
             },
+            // child:  GestureDetector(
+            //   onLongPress: ()=> _showEditModal(context, transaction),
             child: Card(
               margin: const EdgeInsets.symmetric(
                 horizontal: 5,
@@ -306,6 +314,12 @@ class _TransactionCardSheetsState extends State<TransactionCardSheets>
                 ), // Borda cinza clara
               ),
               child: ListTile(
+                onLongPress: () => EditTransactionSheet.show(
+                  context: context,
+                  type: transaction.type,
+                  submitCommand: widget.onEdit,
+                  transactionToEdit: transaction,
+                    ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
