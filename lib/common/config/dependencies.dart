@@ -27,7 +27,7 @@ void setupDependencies() {
   injector.addSingleton(GetTransactionBayDateUseCaseImpl.new);
   injector.addSingleton(DeleteTransactionUseCaseImpl.new);
   injector.addSingleton(AddTransactionUseCaseImpl.new);
-  injector.addSingleton(EditTransactionUseCaseImpl.new); //adição do injector de EditTransaction
+  injector.addSingleton(EditTransactionUseCaseImpl.new);
   injector.addSingleton(TransactionFacadeUseCases.new);
   
 
